@@ -5,10 +5,21 @@ import './index.css';
 
 // {this.props.value}  called on by the board class
 class Square extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            value: null,
+        }
+    }
     render() {
         return (
-            <button className="square">
-                {this.props.value}
+            <button className="square"
+                    onClick={() =>
+                    {
+                        console.log('click');
+                        this.setState({value: 'X'})
+                    }}>
+                {this.state.value}
             </button>
         );
     }
