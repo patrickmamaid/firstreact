@@ -5,21 +5,19 @@ import './index.css';
 
 // {this.props.value}  called on by the board class
 class Square extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            value: null,
-        }
-    }
-    render() {
+    // constructor(props) { // this gets ignored anyway commenting it out
+    //     super(props);
+    //     this.state = {
+    //         value: null,
+    //     }
+    // }
+    render() { // every class must have a render i think ????? this is a method inside a class in jsx
         return (
-            <button className="square"
-                    onClick={() =>
-                    {
-                        console.log('click');
-                        this.setState({value: 'X'})
-                    }}>
-                {this.state.value}
+            <button
+                className="square"
+                onClick={()=> this.props.onClick() }
+            >
+                {this.props.value}
             </button>
         );
     }
@@ -34,10 +32,33 @@ class Board extends React.Component {
         }
     }
 
+
+    handleClick(i){
+
+        const squares = this.state.squares.slice(); // basically copy the array from this states squares to here per handleclick
+        // interesting how you can modify an array here ..
+        squares[i] = 'X'; // incoming array[i] then sets it to X
+        this.setState({
+            squares: squares
+        }); // omg because no pointers lol, once you copy it here, add X to an index and send it back to setstate lol wow
+
+
+        // so i have found that you should keep things immutable by doing copies apparently
+        // this is especially good when you want to do historic jumps back in time
+        // avoiding direct data mutation lets us keep pervious versions of the games history intact
+        // and reusing them later VERY COOL
+        // https://reactjs.org/tutorial/tutorial.html#setup-for-the-tutorial read DATA CHANGE WITH MUTATION
+        
+
+    }
+
     renderSquare(i) { // gets index 0
         return(
-            <Square value={this.state.squares[i]} /> // tell the square how it is by sending the square this value from our constructor/// by using the same index from the other render area
-        )
+            <Square
+                value={this.state.squares[i]}
+                onClick={()=> this.handleClick(i) }
+            /> // tell the square how it is by sending the square this value from our constructor/// by using the same index from the other render area
+        );
     }
 
 
