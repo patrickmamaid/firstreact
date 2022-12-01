@@ -26,10 +26,24 @@ class Square extends React.Component {
 }
 
 class Board extends React.Component {
-    renderSquare(i) {
-        return <Square value={i} />; // passing prop called value here
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            squares: Array(9).fill(null) // fill up 9 boxes but empty
+        }
     }
 
+    renderSquare(i) { // gets index 0
+        return(
+            <Square value={this.state.squares[i]} /> // tell the square how it is by sending the square this value from our constructor/// by using the same index from the other render area
+        )
+    }
+
+
+    // this is the main board basically
+    // each section is calling its local renderSquare within this class passing an index value here
+    // renderSquare returns
     render() {
         const status = 'Next player: X';
 
