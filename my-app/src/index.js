@@ -3,32 +3,45 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 
 
-// {this.props.value}  called on by the board class
-class Square extends React.Component {
-    // constructor(props) { // this gets ignored anyway commenting it out
-    //     super(props);
-    //     this.state = {
-    //         value: null,
-    //     }
-    // }
-    render() { // every class must have a render i think ????? this is a method inside a class in jsx
-        return (
-            <button
-                className="square"
-                onClick={()=> this.props.onClick() }
-            >
-                {this.props.value}
-            </button>
-        );
-    }
+// // {this.props.value}  called on by the board class
+// class Square extends React.Component {
+//     // constructor(props) { // this gets ignored anyway commenting it out
+//     //     super(props);
+//     //     this.state = {
+//     //         value: null,
+//     //     }
+//     // }
+//     render() { // every class must have a render i think ????? this is a method inside a class in jsx
+//         return (
+//             <button
+//                 className="square"
+//                 onClick={()=> this.props.onClick() }
+//             >
+//                 {this.props.value}
+//             </button>
+//         );
+//     }
+// }
+
+
+// lets rewrite the square class above as a function
+function Square(props) {
+    return(
+        <button className="square" onClick={props.onClick}>
+            {props.value}
+        </button>
+    );
 }
+
+
 
 class Board extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            squares: Array(9).fill(null) // fill up 9 boxes but empty
+            squares: Array(9).fill(null), // fill up 9 boxes but empty
+            xIsNext: true,
         }
     }
 
@@ -37,9 +50,10 @@ class Board extends React.Component {
 
         const squares = this.state.squares.slice(); // basically copy the array from this states squares to here per handleclick
         // interesting how you can modify an array here ..
-        squares[i] = 'X'; // incoming array[i] then sets it to X
+        squares[i] = this.state.xIsNext ? 'X' : 'O'; // very ineteresting if statement
         this.setState({
-            squares: squares
+            squares: squares,
+            xIsNext: !this.state.xIsNext,
         }); // omg because no pointers lol, once you copy it here, add X to an index and send it back to setstate lol wow
 
 
