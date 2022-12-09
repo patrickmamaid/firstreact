@@ -1,1 +1,1 @@
-# This is my first attempt at react please forgive me for all my sins
+# A very basic implementation of tic tac toe with react
